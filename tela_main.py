@@ -7,8 +7,16 @@ import os
 import time
 import random
 import conexao
+import oracledb
+import converterJson
  
 
+#conexao 
+user = "RM553228"
+passw = "130201"
+dsnStr = oracledb.makedsn("oracle.fiap.com.br", 1521, "ORCL")
+# Efetua a conexão com o Usuário
+connection = oracledb.connect(user=user, password=passw, dsn=dsnStr)
 
 root = Tk()
 
@@ -16,7 +24,6 @@ root = Tk()
 menu= Menu(root)
 
 #instanciando a conexao
-con1 = conexao()
 
 root.config(menu=menu)
 root.title("Menu InovaAcess - Terceira Sprint")
@@ -51,15 +58,46 @@ def quemSomos():
 def acessarDiretorio(diretorio):
    return os.startfile(diretorio)
 
+def salvarJson(obj):
+    instanciaJson = converterJson
+    instanciaJson.ConverterJson.res = obj
+
+
+def select():
+    # Cria um cursor
+    cursor = connection.cursor()
+    try:
+    # Executa uma instrução SELECT
+        cursor.execute("SELECT * FROM T_TIPOS_ACESSIBILIDADE")
+        rows = cursor.fetchall()
+        mensagem("TESTE", "ENTROU")
+        salvarJson("obj")
+        for row in rows:
+            print(row)
+    except oracledb.DatabaseError as e:
+        error, = e.args
+        print(f"ERRO: {error.code} - {error.message}")
+    finally:
+        cursor.close()
+
+def insert():
+    return "opa"
+
+def delete():
+    return "opa"
+
+def update():
+    return "opa"
+
  
 opcao1 = Menu(menu, tearoff=0)
 opcao1.add_command(label= "ACESSAR LEITURA DE CVS", command= lambda: criarBotao2())
 
 crud = Menu(menu, tearoff=0)
-crud.add_command(label= "SELECT", command= lambda: mensagem("SELECT","ainda não feito em python, feito em java."))
-crud.add_command(label= "INSERT", command= lambda: mensagem("INSERT","ainda não feito em python, feito em java."))
-crud.add_command(label= "UPDATE", command= lambda: mensagem("UPDATE","ainda não feito em python, feito em java."))
-crud.add_command(label= "DELETE", command= lambda: mensagem("DELETE","ainda não feito em python, feito em java."))
+crud.add_command(label= "SELECT", command= lambda: select())
+crud.add_command(label= "INSERT", command= lambda: insert())
+crud.add_command(label= "UPDATE", command= lambda: update())
+crud.add_command(label= "DELETE", command= lambda: delete())
 
 opcao2 = Menu(menu, tearoff=0)
 opcao2.add_command(label= "Acessar Camera Mouse", command= lambda: criarBotao())

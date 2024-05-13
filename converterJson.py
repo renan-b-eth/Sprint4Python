@@ -3,7 +3,7 @@ import conexao
 
 class ConverterJson:
    
-    res = conexao.resultado # puxa o resultado da consulta
+    res = conexao.conexao.rows # puxa o resultado da consulta
 
     # Converter os resultados para JSON
     dados_json = []
@@ -16,5 +16,4 @@ class ConverterJson:
     # Salvar o JSON em um arquivo
     with open('dados.json', 'w') as arquivo:
         arquivo.write(json_string)
-    
     pass
