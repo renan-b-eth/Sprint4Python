@@ -6,7 +6,7 @@ import subprocess
 import os
 import time
 import random
-import cx_Oracle
+import conexao
  
 
 
@@ -14,6 +14,9 @@ root = Tk()
 
 #criacao menu
 menu= Menu(root)
+
+#instanciando a conexao
+con1 = conexao()
 
 root.config(menu=menu)
 root.title("Menu InovaAcess - Terceira Sprint")
@@ -48,21 +51,6 @@ def quemSomos():
 def acessarDiretorio(diretorio):
    return os.startfile(diretorio)
 
-#conexao ao banco de dados oracle
-
-con = cx_Oracle.connect('RM553228/130201@fiap.oracle.com.br')   
-
-cursor = con.cursor()
-cursor.execute("SELECT * FROM T_CADASTRO_ADMIN")
-
-resultado = cursor.fetchall()
-
-# Imprimir o resultado da consulta
-for linha in resultado:
-    print(linha)
-
-# Fechar a conexão
-con.close()
  
 opcao1 = Menu(menu, tearoff=0)
 opcao1.add_command(label= "ACESSAR LEITURA DE CVS", command= lambda: criarBotao2())
