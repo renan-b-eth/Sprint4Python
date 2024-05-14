@@ -10,7 +10,8 @@ import conexao
 import oracledb
 import json
 import pandas as pd # salvamos o arquivo em json convertendo um dataframe em json ao inves de um foreach de linhas e json dumps e with para leitura.
- 
+from tkinter.simpledialog import askstring
+import datetime
 
 #conexao 
 user = "RM553228"
@@ -19,7 +20,7 @@ dsnStr = oracledb.makedsn("oracle.fiap.com.br", 1521, "ORCL")
 # Efetua a conexão com o Usuário
 connection = oracledb.connect(user=user, password=passw, dsn=dsnStr)
 
-root = Tk()
+root = tk.Tk()
 
 #criacao menu
 menu= Menu(root)
@@ -46,9 +47,18 @@ texto3.grid(row=3, column=1, columnspan=3)
 
 root.resizable(False, False)
 
+def retornar_hora_atual():
+    data = datetime.datetime.now()
+    data_formato_oracle = data.strftime("%Y-%m-%d %H:%M:%S") # DEIXA NO FORMATO ORACLE DA DATA
+    return data_formato_oracle
 
- 
- 
+
+def input_usuario(titulo, texto):
+    root = Tk()
+    root.withdraw()  # Esconde a janela principal do Tkinter
+    input = askstring(titulo, texto)
+    return input
+
 def criarBotao():
     btnMoverMouse = Button(root, text = 'Mover Camera',
                        command = lambda:acessarSiteProdutos("www.salesforce.com.br"))                  
@@ -90,6 +100,7 @@ def select():
             dic.append(rows) # coloca todas as linhas num dicionario
         df = pd.DataFrame(dic)
             #print(row)
+        mensagem("LOG", "Json das logs realizada com sucesso.")
         df.to_json('dadosLogs.json', orient='records', indent=1) # converter o dataframe em json
         #print(df)
         #print("FINAL")
@@ -100,7 +111,24 @@ def select():
         cursor.close()
 
 def insert():
-    return "opa"
+    id = random.randint(10,10000)
+    titulo = input_usuario("Titulo Logs", "Insira o titulo da log:")
+    tipo = input_usuario("Tipo Logs", "Insira o tipo da log:")
+    descricao =  input_usuario("Descricao", "Insira a decrição log:")
+    data = retornar_hora_atual()
+    cursor = connection.cursor()
+    cursor.execute(
+        f"INSERT INTO T_LOGS (id_logs, titulo_logs, tipo_logs, descricao_logs, dt_logs) VALUES (:id, :titulo, :tipo, :descricao, :data)",
+        { 
+            ":id": id,
+            ":titulo": titulo,
+            ":tipo": tipo,
+            ":descricao": descricao,
+            ":data": data, 
+        },
+    )
+    mensagem("LOG INSERIDA NO BANCO SUCESSO!")
+    connection.commit()
 
 def delete():
     return "opa"
