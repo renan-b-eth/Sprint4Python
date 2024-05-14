@@ -8,6 +8,7 @@ import time
 import random
 import conexao
 import oracledb
+import json
 import converterJson
  
 
@@ -28,9 +29,24 @@ menu= Menu(root)
 root.config(menu=menu)
 root.title("Menu InovaAcess - Terceira Sprint")
 root.geometry("900x500")
+titulo = tk.Label(root, text="CRUD BASICO EM MENU, INOVACESS", font=("Arial", 24, "bold"))
+titulo.config(background="white", foreground="red", justify=tk.CENTER, padx=20, pady=20)
+
+titulo.grid(row=0, column=0, columnspan=2)
 #fundo = PhotoImage(file="logo8.png")
 #fundo1 = Label(root, image=fundo).place(x=1, y=1, relheight=1, relwidth=1)
+#valor_inicial = 0
+texto2 = tk.Label(root, text="JSON DADOS:", font=("Arial", 15, "bold"))
+texto2.config(background="black", foreground="red", justify=tk.CENTER, padx=50, pady=50)
+texto2.grid(row=2, column=1, columnspan=3)
+
+texto3 = tk.Label(root, text="VAZIO", font=("Arial", 10, "bold"))
+texto3.config(background="black", foreground="red", justify=tk.CENTER, padx=50, pady=50)
+texto3.grid(row=3, column=1, columnspan=3)
+
 root.resizable(False, False)
+
+
  
  
 def criarBotao():
@@ -58,9 +74,18 @@ def quemSomos():
 def acessarDiretorio(diretorio):
    return os.startfile(diretorio)
 
-def salvarJson(obj):
-    instanciaJson = converterJson
-    instanciaJson.ConverterJson.res = obj
+def salvarJson(res):
+    # Converter os resultados para JSON
+    dados_json = []
+    for linha in res:
+        dados_json.append(dict(linha))
+
+    # Converter o objeto JSON para string
+    json_string = json.dumps(dados_json, indent=4)
+
+    # Salvar o JSON em um arquivo
+    with open('dados.json', 'w') as arquivo:
+        arquivo.write(json_string)
 
 
 def select():
@@ -71,7 +96,10 @@ def select():
         cursor.execute("SELECT * FROM T_TIPOS_ACESSIBILIDADE")
         rows = cursor.fetchall()
         mensagem("TESTE", "ENTROU")
-        salvarJson("obj")
+        opa = ["opa", "opa"]
+        texto3.config(text=opa)
+        salvarJson(opa)
+        print(rows)
         for row in rows:
             print(row)
     except oracledb.DatabaseError as e:
