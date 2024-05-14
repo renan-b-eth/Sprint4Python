@@ -1,0 +1,6 @@
+oracledb
+json
+pandas
+numpy
+random
+datetime
