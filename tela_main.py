@@ -9,7 +9,7 @@ import random
 import conexao
 import oracledb
 import json
-import converterJson
+import pandas as pd # salvamos o arquivo em json convertendo um dataframe em json ao inves de um foreach de linhas e json dumps e with para leitura.
  
 
 #conexao 
@@ -27,7 +27,7 @@ menu= Menu(root)
 #instanciando a conexao
 
 root.config(menu=menu)
-root.title("Menu InovaAcess - Terceira Sprint")
+root.title("Menu InovaAcess - Quarta Sprint")
 root.geometry("900x500")
 titulo = tk.Label(root, text="CRUD BASICO EM MENU, INOVACESS", font=("Arial", 24, "bold"))
 titulo.config(background="white", foreground="red", justify=tk.CENTER, padx=20, pady=20)
@@ -74,34 +74,25 @@ def quemSomos():
 def acessarDiretorio(diretorio):
    return os.startfile(diretorio)
 
-def salvarJson(res):
-    # Converter os resultados para JSON
-    dados_json = []
-    for linha in res:
-        dados_json.append(dict(linha))
-
-    # Converter o objeto JSON para string
-    json_string = json.dumps(dados_json, indent=4)
-
-    # Salvar o JSON em um arquivo
-    with open('dados.json', 'w') as arquivo:
-        arquivo.write(json_string)
-
 
 def select():
     # Cria um cursor
     cursor = connection.cursor()
     try:
     # Executa uma instrução SELECT
-        cursor.execute("SELECT * FROM T_TIPOS_ACESSIBILIDADE")
+        cursor.execute("SELECT * FROM T_LOGS")
         rows = cursor.fetchall()
-        mensagem("TESTE", "ENTROU")
-        opa = ["opa", "opa"]
-        texto3.config(text=opa)
-        salvarJson(opa)
-        print(rows)
+        texto3.config(text=rows)
+        #print(rows)
+        #print("SEM ERRO")
         for row in rows:
-            print(row)
+            dic = [] 
+            dic.append(rows) # coloca todas as linhas num dicionario
+        df = pd.DataFrame(dic)
+            #print(row)
+        df.to_json('dadosLogs.json', orient='records', indent=1) # converter o dataframe em json
+        #print(df)
+        #print("FINAL")
     except oracledb.DatabaseError as e:
         error, = e.args
         print(f"ERRO: {error.code} - {error.message}")

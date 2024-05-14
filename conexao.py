@@ -14,11 +14,11 @@ class conexao:
     cursor = connection.cursor()
 
     # Executa uma instrução SELECT
-    cursor.execute('SELECT * FROM T_CADASTRO_ADMIN')
+    cursor.execute('SELECT * FROM T_LOGS')
 
     rows = cursor.fetchall()
     for row in rows:
-        print(row)
-        print("OPA")
+        #print(row)
+        #print("OPA")
     
-    pass
+     pass
