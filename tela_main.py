@@ -31,18 +31,18 @@ root.config(menu=menu)
 root.title("Menu InovaAcess - Quarta Sprint")
 root.geometry("900x500")
 titulo = tk.Label(root, text="CRUD BASICO EM MENU, INOVACESS", font=("Arial", 24, "bold"))
-titulo.config(background="white", foreground="red", justify=tk.CENTER, padx=20, pady=20)
+titulo.config(background="white", foreground="#1163F0", justify=tk.CENTER, padx=20, pady=20)
 
 titulo.grid(row=0, column=0, columnspan=2)
 #fundo = PhotoImage(file="logo8.png")
 #fundo1 = Label(root, image=fundo).place(x=1, y=1, relheight=1, relwidth=1)
 #valor_inicial = 0
 texto2 = tk.Label(root, text="JSON DADOS:", font=("Arial", 15, "bold"))
-texto2.config(background="black", foreground="red", justify=tk.CENTER, padx=50, pady=50)
+texto2.config(background="white", foreground="#1163F0", justify=tk.CENTER, padx=50, pady=50)
 texto2.grid(row=2, column=1, columnspan=3)
 
 texto3 = tk.Label(root, text="VAZIO", font=("Arial", 10, "bold"))
-texto3.config(background="black", foreground="red", justify=tk.CENTER, padx=50, pady=50)
+texto3.config(background="white", foreground="#1163F0", justify=tk.CENTER, padx=50, pady=50)
 texto3.grid(row=3, column=1, columnspan=3)
 
 root.resizable(False, False)
@@ -127,14 +127,14 @@ def insert():
             ":data": data, 
         },
     )
-    mensagem("LOG INSERIDA NO BANCO SUCESSO!")
+    mensagem("LOG OK","LOG INSERIDA NO BANCO SUCESSO!")
     connection.commit()
 
 def delete():
-    return "opa"
+    return mensagem("PROXIMA", "APENAS NA PROXIMA FEATURE")
 
 def update():
-    return "opa"
+    return mensagem("PROXIMA", "APENAS NA PROXIMA FEATURE")
 
  
 opcao1 = Menu(menu, tearoff=0)
