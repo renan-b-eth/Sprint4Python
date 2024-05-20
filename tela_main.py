@@ -133,7 +133,8 @@ def insert():
 def delete():
     cursor = connection.cursor()
     id = input_usuario("Titulo Logs", "Insira o titulo da log:")
-    consulta = "DELETE FROM T_LOGS WHERE id_logs = " + id
+    consulta = "DELETE FROM T_LOGS WHERE id_logs = " + str(id)
+    mensagem("LOG OK","LOG DELETADA COM SUCESSO")
     cursor.execute(consulta)
     connection.commit()
 
