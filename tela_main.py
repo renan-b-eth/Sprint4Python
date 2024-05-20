@@ -93,7 +93,7 @@ def select():
         cursor.execute("SELECT * FROM T_LOGS")
         rows = cursor.fetchall()
         texto3.config(text=rows)
-        #print(rows)
+        print(rows)
         #print("SEM ERRO")
         for row in rows:
             dic = [] 
@@ -131,7 +131,11 @@ def insert():
     connection.commit()
 
 def delete():
-    return mensagem("PROXIMA", "APENAS NA PROXIMA FEATURE")
+    cursor = connection.cursor()
+    id = input_usuario("Titulo Logs", "Insira o titulo da log:")
+    consulta = "DELETE FROM T_LOGS WHERE id_logs = " + id
+    cursor.execute(consulta)
+    connection.commit()
 
 def update():
     return mensagem("PROXIMA", "APENAS NA PROXIMA FEATURE")

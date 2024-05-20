@@ -16,9 +16,12 @@ class conexao:
     # Executa uma instrução SELECT
     cursor.execute('SELECT * FROM T_LOGS')
 
+
     rows = cursor.fetchall()
     for row in rows:
-        #print(row)
+        #consulta = f"DELETE FROM T_LOGS WHERE id_logs = :id_logs"  # Use ":id_registro"
+        #cursor.execute(consulta, id_logs=4)
+        print(row)
         #print("OPA")
     
-     pass
+    pass
