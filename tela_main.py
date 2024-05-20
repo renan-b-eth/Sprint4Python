@@ -138,7 +138,20 @@ def delete():
     connection.commit()
 
 def update():
-    return mensagem("PROXIMA", "APENAS NA PROXIMA FEATURE")
+    cursor = connection.cursor()
+    id = input_usuario("Titulo", "Insira o ID:")  # ID do admin a ser atualizado
+    novo_titulo = input_usuario("Titulo", "Insira a nova descricao:")  # Novo titulo
+    nova_descricao = input_usuario("Titulo", "A Nova descricao")  # Nova descricao
+
+    consulta = f"""
+    UPDATE T_LOGS
+    SET TITULO_lOGS = :novo_titulo, DESCRICAO_LOGS = :nova_descricao
+    WHERE ID_lOGS = :id
+    """
+    cursor.execute(consulta, id=id, novo_titulo=novo_titulo, nova_descricao=nova_descricao)
+    connection.commit()
+
+    return mensagem("LOG ATUALIZADA COM SUCESSO")
 
  
 opcao1 = Menu(menu, tearoff=0)

@@ -21,7 +21,7 @@ class conexao:
     for row in rows:
         #consulta = f"DELETE FROM T_LOGS WHERE id_logs = :id_logs"  # Use ":id_registro"
         #cursor.execute(consulta, id_logs=4)
-        print(row)
+        #print(row)
         #print("OPA")
     
-    pass
+     pass
