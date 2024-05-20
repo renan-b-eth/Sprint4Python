@@ -110,6 +110,33 @@ def select():
     finally:
         cursor.close()
 
+def selectwhere():
+    # Cria um cursor
+    cursor = connection.cursor()
+    try:
+    # Executa uma instrução SELECT
+        tipo = input_usuario("Titulo Logs", "Insira o tipo da log")
+        query = f"SELECT * FROM T_LOGS WHERE TIPO_lOGS = '{tipo}'"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        texto3.config(text=rows)
+        print(rows)
+        #print("SEM ERRO")
+        for row in rows:
+            dic = [] 
+            dic.append(rows) # coloca todas as linhas num dicionario
+        df = pd.DataFrame(dic)
+            #print(row)
+        mensagem("LOG", "Json das logs realizada com sucesso.")
+        df.to_json('dadosLogs.json', orient='records', indent=1) # converter o dataframe em json
+        #print(df)
+        #print("FINAL")
+    except oracledb.DatabaseError as e:
+        error, = e.args
+        print(f"ERRO: {error.code} - {error.message}")
+    finally:
+        cursor.close()
+
 def insert():
     id = random.randint(10,10000)
     titulo = input_usuario("Titulo Logs", "Insira o titulo da log:")
@@ -160,6 +187,7 @@ opcao1.add_command(label= "ACESSAR LEITURA DE CVS", command= lambda: criarBotao2
 
 crud = Menu(menu, tearoff=0)
 crud.add_command(label= "SELECT", command= lambda: select())
+crud.add_command(label= "SELECT WHERE", command= lambda: selectwhere())
 crud.add_command(label= "INSERT", command= lambda: insert())
 crud.add_command(label= "UPDATE", command= lambda: update())
 crud.add_command(label= "DELETE", command= lambda: delete())
